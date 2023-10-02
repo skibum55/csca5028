@@ -1,0 +1,11 @@
+# Student Sentiment Analysis
+
+```make setup```
+
+pip, environment, etc
+
+```make db```
+
+db schema
+
+```make test```

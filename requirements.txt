@@ -1,0 +1,5 @@
+sqlite3
+slack_sdk
+flair
+flask
+os
