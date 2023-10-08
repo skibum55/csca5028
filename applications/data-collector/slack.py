@@ -1,8 +1,10 @@
 import logging
 import os
+
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
+import dbAPI
 
 # https://api.slack.com/messaging/retrieving
 
@@ -12,6 +14,10 @@ client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
 logger = logging.getLogger(__name__)
 channel_name = "csca5028"
 conversation_id = None
+
+# TODO - create db and table on initialization
+db_filename = os.environ.get("SQLITE_DB")
+dbAPI.create(db_filename) 
 
 try:
     # Call the conversations.list method using the WebClient
@@ -59,12 +65,20 @@ try:
         channel=conversation_id,
         inclusive=True,
         oldest="1610144875.000600",
+        # latest="1686118400",
         limit=100
-    )
-
+    )  
     for message in result["messages"]:
     # Print message text
-        print(message["text"])
+        messagetype=message["type"]
+        messagesubtype=message.get("subtype") or ""
+        mytext=message["text"]
+        mythread=message.get("thread_ts") or ""
+        myts=message["ts"]
+        mymessage=(messagetype,mytext,myts)
+        dbAPI.insert(mymessage)
+        if (messagesubtype != "channel_join"):
+            print(messagetype, mytext, mythread,myts)
 
 except SlackApiError as e:
     print(f"Error: {e}")

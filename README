@@ -1,11 +1,11 @@
 # Student Sentiment Analysis
 
-```make setup```
+``` make init ```
 
 pip, environment, etc
 
-```make db```
+``` make db ```
 
 db schema
 
-```make test```
+``` make test ```
