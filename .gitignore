@@ -90,6 +90,7 @@ ipython_config.py
 [Ll]ib64
 [Ll]ocal
 [Ss]cripts
+[Ss]hare
 
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
