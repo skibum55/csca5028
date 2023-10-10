@@ -83,7 +83,8 @@ ipython_config.py
 
 # pyenv
 .python-version
-# venv
+
+# venv https://github.com/github/gitignore/blob/main/Global/VirtualEnv.gitignore
 [Bb]in
 [Ii]nclude
 [Ll]ib
