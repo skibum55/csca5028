@@ -25,7 +25,8 @@ async def main():
 </head>
 
 <body>
-	<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+	<div id='speedometerDiv'><!-- Plotly speedometer will be drawn inside this DIV --></div>
+    <div id='chartDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
     <script>
     // JavaScript Code
         var data = [
@@ -61,7 +62,29 @@ async def main():
         paper_bgcolor: "lavender",
         font: { color: "darkblue", family: "Arial" }
         };
-        Plotly.newPlot('myDiv', data, layout);
+        Plotly.newPlot('speedometerDiv', data, layout);
+        // https://plotly.com/javascript/time-series/
+        var trace1 = {
+        x: [1, 2, 3, 4],
+        y: [0, 2, 3, 5],
+        fill: 'tozeroy',
+        type: 'scatter',
+        line: {shape: 'spline'}
+        };
+
+        var trace2 = {
+        x: [1, 2, 3, 4],
+        y: [3, 5, 1, 7],
+        fill: 'tonexty',
+        type: 'scatter',
+        line: {shape: 'spline'}
+        
+        };
+
+        var data = [trace1, trace2];
+
+        Plotly.newPlot('chartDiv', data);
+
     </script>
 </body>"""
     # https://fastapi.tiangolo.com/advanced/custom-response/
