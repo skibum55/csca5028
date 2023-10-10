@@ -81,6 +81,7 @@ try:
         if (messagesubtype != "channel_join"):
             print(messagetype, mytext, mythread,myts)
         print(sentiment.sentimentAnalyzer(mytext))
+        # TODO - add above to variable, then write to new db table with id & sentiment
 
 except SlackApiError as e:
     print(f"Error: {e}")

@@ -1,17 +1,32 @@
 import sqlite3
 import os
-# Create a database with the filename given.
-# Create the required tables and fields.
+from contextlib import contextmanager
+# createdb & session
+db_path = os.environ.get("SQLITE_DB")
 
-db_filename = os.environ.get("SQLITE_DB")
+@contextmanager
+def db_cursor(db_path):
+    conn = sqlite3.connect(db_path)
+    try:
+        cur = conn.cursor()
+        yield cur
+    except Exception as e:
+        conn.rollback()
+        raise e
+    else:
+        conn.commit()
+    finally:
+        conn.close() 
+
+# Create a database with the filename given.
+# Create the required tables and fields
 
 def create(db_filename):
-    conn = sqlite3.connect(db_filename)
-    cur = conn.cursor()
-    # c = cur.execute("CREATE TABLE Store(idStore INTEGER PRIMARY KEY ASC, SquareFeet INTEGER,StoreType VARCHAR(45),LocationType CHAR(1), Address VARCHAR(45), City VARCHAR(45), StoreState VARCHAR(45), ZipCode VARCHAR(10) );")
-    c = cur.execute("CREATE TABLE  IF NOT EXISTS Message(type string,text string,ts string);")
-    conn.commit()
-    conn.close()
+    # conn = sqlite3.connect(db_filename)
+    with db_cursor(db_path) as cur:
+        cur.execute("CREATE TABLE IF NOT EXISTS messageSentiment(ts string, sentiment string);")
+        cur.execute("CREATE TABLE IF NOT EXISTS message(type string,text string,ts string);")
+
 
 storeData = [
     (1, 1982, 'Big','R','right down the street','acity','ca','12345'),
@@ -26,26 +41,18 @@ messageData = [
 ]
 
 def fill(db_filename):
-    conn = sqlite3.connect(db_filename)
-    cur = conn.cursor()
-    # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData) 
-    c = cur.executemany("INSERT INTO Message VALUES(?,?,?,?)", messageData)
-    conn.commit()
-    conn.close 
+    with db_cursor(db_path) as cur:
+        # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData) 
+        cur.executemany("INSERT INTO Message VALUES(?,?,?,?)", messageData)
 
 # https://www.sqlitetutorial.net/sqlite-python/insert/
 def insert(message):
     # db_filename="mydb"
-    conn = sqlite3.connect(db_filename)
-    cur = conn.cursor()
-    c = cur.execute("INSERT INTO Message VALUES(?, ?,?)", message) 
-    conn.commit()
-    conn.close 
+    # conn = sqlite3.connect(db_filename)
+    with db_cursor(db_path) as cur:
+        cur.execute("INSERT INTO Message VALUES(?, ?,?)", message) 
+ 
 
 def select(message):
-    # db_filename="mydb"
-    conn = sqlite3.connect(db_filename)
-    cur = conn.cursor()
-    c = cur.execute("SELECT * FROM Message") 
-    conn.commit()
-    conn.close 
+    with db_cursor(db_path) as cur:    
+        cur.execute("SELECT * FROM Message") 

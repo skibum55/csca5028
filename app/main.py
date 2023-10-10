@@ -11,6 +11,7 @@ import app.analyzer.sentiment as sentiment
 from components.metrics.prometheus import MetricsManager, REQUEST_COUNT, REQUEST_LATENCY, REQUEST_TIME
 import time
 
+# initialize app
 app = FastAPI()
 
 # https://stackoverflow.com/questions/65296604/how-to-return-a-htmlresponse-with-fastapi
