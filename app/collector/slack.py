@@ -4,7 +4,7 @@ import os
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-import dbAPI
+import db.dbAPI as dbAPI
 
 # https://api.slack.com/messaging/retrieving
 
@@ -82,3 +82,6 @@ try:
 
 except SlackApiError as e:
     print(f"Error: {e}")
+
+def myfunction():
+    return {"hola mundo"}

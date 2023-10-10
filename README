@@ -9,3 +9,17 @@ pip, environment, etc
 db schema
 
 ``` make test ```
+
+front end
+
+```flask --app applications/web/web.py run```
+
+data-collector
+
+```uvicorn app.main:app```
+
+```python3 -m applications.collector.slack```
+
+docs
+
+http://127.0.0.1:8000/docs#/ or /redoc
