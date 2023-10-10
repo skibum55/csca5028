@@ -6,12 +6,21 @@ from starlette.status import HTTP_201_CREATED
 
 import db.dbAPI as dbAPI
 import app.collector.slack as slack
+from components.metrics.prometheus import MetricsManager
+import time
 
 app = FastAPI()
 
 @app.get("/")
-async def root():
-    return {"message": "Hello World"}
+async def main():
+    start_time = time.time()
+    # REQUEST_COUNT.labels('GET', '/', 200).inc()
+    # REQUEST_LATENCY.labels('GET', '/').observe(time.time() - start_time)
+    return 'Hola Mundo!'
+
+# @app.post("/echo_user_input")
+# async def echo_input(user_input: Annotated[str, Form()]):
+#     return "You entered: " + user_input
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Optional[str] = None):
@@ -26,3 +35,7 @@ def collect_data():
 def read_item(dbname: str):
     dbAPI.create(dbname) 
     return dbname
+
+# https://github.com/prometheus/client_python
+metrics_app = MetricsManager.myMetrics()
+app.mount("/metrics", metrics_app)

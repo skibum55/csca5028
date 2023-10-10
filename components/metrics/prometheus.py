@@ -1,4 +1,4 @@
-from prometheus_client import make_wsgi_app, Counter, Histogram, Summary
+from prometheus_client import make_asgi_app, Counter, Histogram, Summary
 
 
 # https://medium.com/@letathenasleep/exposing-python-metrics-with-prometheus-c5c837c21e4d
@@ -19,4 +19,4 @@ REQUEST_TIME = Summary(
 
 class MetricsManager():
   def myMetrics():
-    return make_wsgi_app()
+    return make_asgi_app()

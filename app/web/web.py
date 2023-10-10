@@ -3,7 +3,7 @@
 from flask import Flask, request
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 import time
-from csca5028.components.metrics.prometheus import MetricsManager
+from components.metrics.prometheus import MetricsManager
 
 app = Flask(__name__)
 
