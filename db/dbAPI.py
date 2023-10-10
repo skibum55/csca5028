@@ -4,6 +4,7 @@ from contextlib import contextmanager
 # createdb & session
 db_path = os.environ.get("SQLITE_DB")
 
+# decorated for reuse - https://stackoverflow.com/questions/67436362/decorator-for-sqlite3/67436763#67436763
 @contextmanager
 def db_cursor(db_path):
     conn = sqlite3.connect(db_path)
@@ -22,7 +23,7 @@ def db_cursor(db_path):
 # Create the required tables and fields
 
 def create(db_filename):
-    # conn = sqlite3.connect(db_filename)
+    # https://www.linkedin.com/pulse/context-manager-python-asad-iqbal
     with db_cursor(db_path) as cur:
         cur.execute("CREATE TABLE IF NOT EXISTS messageSentiment(ts string, sentiment string);")
         cur.execute("CREATE TABLE IF NOT EXISTS message(type string,text string,ts string);")
@@ -51,6 +52,12 @@ def insert(message):
     # conn = sqlite3.connect(db_filename)
     with db_cursor(db_path) as cur:
         cur.execute("INSERT INTO Message VALUES(?, ?,?)", message) 
+
+def insertSentiment(ts, sentiment):
+    # db_filename="mydb"
+    # conn = sqlite3.connect(db_filename)
+    with db_cursor(db_path) as cur:
+        cur.execute("INSERT INTO messageSentiment values (?, ?)",(ts,sentiment))
  
 
 def select(message):

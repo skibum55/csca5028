@@ -80,8 +80,9 @@ try:
         dbAPI.insert(mymessage)
         if (messagesubtype != "channel_join"):
             print(messagetype, mytext, mythread,myts)
-        print(sentiment.sentimentAnalyzer(mytext))
+        msgSentiment = sentiment.sentimentAnalyzer(mytext)
         # TODO - add above to variable, then write to new db table with id & sentiment
+        dbAPI.insertSentiment(myts,msgSentiment)
 
 except SlackApiError as e:
     print(f"Error: {e}")
