@@ -7,6 +7,7 @@ from starlette.status import HTTP_201_CREATED
 
 import db.dbAPI as dbAPI
 import app.collector.slack as slack
+import app.analyzer.sentiment as sentiment
 from components.metrics.prometheus import MetricsManager, REQUEST_COUNT, REQUEST_LATENCY, REQUEST_TIME
 import time
 
@@ -101,6 +102,11 @@ def read_item(item_id: int, q: Optional[str] = None):
 @app.get("/collect/",status_code=HTTP_201_CREATED)
 def collect_data():
     q=slack.myfunction() 
+    return q
+
+@app.get("/analyze/{sentence}",status_code=HTTP_201_CREATED)
+def analyze_data(sentence: str):
+    q=sentiment.sentimentAnalyzer(sentence) 
     return q
 
 @app.get("/db/{dbname}",status_code=HTTP_201_CREATED)

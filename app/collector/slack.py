@@ -5,6 +5,7 @@ import os
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import db.dbAPI as dbAPI
+import app.analyzer.sentiment as sentiment
 
 # https://api.slack.com/messaging/retrieving
 
@@ -79,6 +80,7 @@ try:
         dbAPI.insert(mymessage)
         if (messagesubtype != "channel_join"):
             print(messagetype, mytext, mythread,myts)
+        print(sentiment.sentimentAnalyzer(mytext))
 
 except SlackApiError as e:
     print(f"Error: {e}")
