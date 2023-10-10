@@ -28,40 +28,40 @@ async def main():
 	<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
     <script>
     // JavaScript Code
-var data = [
-  {
-    type: "indicator",
-    mode: "gauge+number+delta",
-    value: 420,
-    title: { text: "sentiment", font: { size: 24 } },
-    delta: { reference: 450, increasing: { color: "RebeccaPurple" } },
-    gauge: {
-      axis: { range: [null, 500], tickwidth: 1, tickcolor: "darkblue" },
-      bar: { color: "darkblue" },
-      bgcolor: "white",
-      borderwidth: 2,
-      bordercolor: "gray",
-      steps: [
-        { range: [0, 250], color: "red" },
-        { range: [250, 400], color: "yellow" },
-        { range: [400, 500], color: "green"}
-      ],
-      threshold: {
-        line: { color: "red", width: 4 },
-        thickness: 0.75,
-        value: 490
-      }
-    }
-  }
-];
-var layout = {
-  width: 500,
-  height: 400,
-  margin: { t: 25, r: 25, l: 25, b: 25 },
-  paper_bgcolor: "lavender",
-  font: { color: "darkblue", family: "Arial" }
-};
-Plotly.newPlot('myDiv', data, layout);
+        var data = [
+        {
+            type: "indicator",
+            mode: "gauge+number+delta",
+            value: .7,
+            title: { text: "sentiment", font: { size: 24 } },
+            delta: { reference: 450, increasing: { color: "RebeccaPurple" } },
+            gauge: {
+            axis: { range: [-1, 1], tickwidth: .25, tickcolor: "darkblue" },
+            bar: { color: "darkblue" },
+            bgcolor: "white",
+            borderwidth: 2,
+            bordercolor: "gray",
+            steps: [
+                { range: [-2, -.5], color: "red" },
+                { range: [-.5, .5], color: "yellow" },
+                { range: [.5, 1], color: "green"}
+            ],
+            threshold: {
+                line: { color: "red", width: 4 },
+                thickness: 0.75,
+                value: 0.75
+            }
+            }
+        }
+        ];
+        var layout = {
+        width: 500,
+        height: 400,
+        margin: { t: 25, r: 25, l: 25, b: 25 },
+        paper_bgcolor: "lavender",
+        font: { color: "darkblue", family: "Arial" }
+        };
+        Plotly.newPlot('myDiv', data, layout);
     </script>
 </body>"""
     # https://fastapi.tiangolo.com/advanced/custom-response/
