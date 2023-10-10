@@ -5,3 +5,4 @@ sqlalchemy
 werkzeug
 prometheus-client
 fastapi[all]
+uvicorn
