@@ -9,6 +9,7 @@ sentence = ''
 
 # load the sentiment tagger
 tagger = Classifier.load('sentiment')
+# tagger = Classifier.load('sentiment-fast')
 
 def sentimentAnalyzer(message: str):
     sentence = Sentence(message)

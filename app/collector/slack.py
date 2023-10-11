@@ -78,8 +78,8 @@ try:
         myts=message["ts"]
         mymessage=(messagetype,mytext,myts)
         dbAPI.insert(mymessage)
-        if (messagesubtype != "channel_join"):
-            print(messagetype, mytext, mythread,myts)
+        # if (messagesubtype != "channel_join"):
+        #     print(messagetype, mytext, mythread,myts)
         msgSentiment = sentiment.sentimentAnalyzer(mytext)
         # write to sentiment table with id & sentiment
         dbAPI.insertSentiment(myts,msgSentiment)
