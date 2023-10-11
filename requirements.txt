@@ -1,8 +1,4 @@
 slack_sdk
 flair
-flask
-sqlalchemy
-werkzeug
 prometheus-client
-fastapi[all]
-uvicorn
+fastapi[uvicorn]
