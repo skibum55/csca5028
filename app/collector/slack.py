@@ -4,7 +4,7 @@ import os
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-import db.dbAPI as dbAPI
+import db.dbAPI as db
 import app.analyzer.sentiment as sentiment
 
 # https://api.slack.com/messaging/retrieving
@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 # TODO - create db and table on initialization in  main function, not here
 db_filename = os.environ.get("SQLITE_DB")
-dbAPI.create(db_filename) 
+db.create(db_filename) 
 
 def myfunction():
     channel_name = "csca5028"
@@ -37,7 +37,7 @@ def myfunction():
     except SlackApiError as e:
         print(f"Error: {e}")
         
-
+# TODO - break the channel, conversation and message retrieval into separate functions
     # Store conversation history
     conversation_history = []
     # ID of the channel you want to send the message to
@@ -59,6 +59,9 @@ def myfunction():
         logger.error("Error creating conversation: {}".format(e))
 
     # conversation_id = "C01JASD6802"
+    # oldestTS = db.get_latest()
+    oldestTS=1672531261
+    # print(oldestTS)
 
     try:
         # Call the conversations.history method using the WebClient
@@ -66,8 +69,9 @@ def myfunction():
         result = client.conversations_history(
             channel=conversation_id,
             inclusive=True,
-            oldest="1610144875.000600",
-            # latest="1686118400",
+            oldest=oldestTS,
+            # latest=oldestTS,
+            # latest="1672531261",
             limit=100
         )  
         for message in result["messages"]:
@@ -78,16 +82,16 @@ def myfunction():
             mythread=message.get("thread_ts") or ""
             myts=message["ts"]
             mymessage=(messagetype,mytext,myts)
-            dbAPI.insert(mymessage)
+            db.insert(mymessage)
             # if (messagesubtype != "channel_join"):
             #     print(messagetype, mytext, mythread,myts)
             msgSentiment = sentiment.sentimentAnalyzer(mytext)
             # write to sentiment table with id & sentiment
             label = msgSentiment.labels[0]
-            labscore = (label.score)*100
+            labscore = (label.score)
             labelSentiment=label.value
 
-            dbAPI.insertSentiment(myts,labelSentiment,labscore)
+            db.insertSentiment(myts,labelSentiment,labscore)
             return {"hola mundo"}
 
     except SlackApiError as e:

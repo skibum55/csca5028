@@ -63,3 +63,15 @@ def insertSentiment(ts, sentiment, confidence):
 def select(message):
     with db_cursor(db_path) as cur:    
         cur.execute("SELECT * FROM Message") 
+
+# https://stackoverflow.com/questions/50074564/python-sqlite3-selecting-rows-from-table
+def get_latest():
+    with db_cursor(db_path) as cur:    
+        for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM Message"): 
+            return(timestamp)
+        
+def get_average_sentiment():
+    with db_cursor(db_path) as cur: 
+        for (average,) in cur.execute("select avg(confidence) as average from messageSentiment"): 
+            return(str(average))
+

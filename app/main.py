@@ -5,7 +5,7 @@ from starlette.status import HTTP_201_CREATED, HTTP_200_OK
 # https://github.com/render-examples/fastapi/tree/main
 # docs url will get you an OpenAPI/Swagger rendering
 
-import db.dbAPI as dbAPI
+import db.dbAPI as db
 import app.collector.slack as slack
 import app.analyzer.sentiment as sentiment
 from components.metrics.prometheus import MetricsManager, REQUEST_COUNT, REQUEST_LATENCY, REQUEST_TIME
@@ -35,7 +35,7 @@ async def main():
         {
             type: "indicator",
             mode: "gauge+number+delta",
-            value: .7,
+            value: """ + db.get_average_sentiment() +""",
             title: { text: "sentiment", font: { size: 24 } },
             delta: { reference: 450, increasing: { color: "RebeccaPurple" } },
             gauge: {
@@ -122,7 +122,7 @@ def analyze_data(sentence: str):
 
 @app.get("/db/{dbname}",status_code=HTTP_201_CREATED)
 def read_item(dbname: str):
-    dbAPI.create(dbname) 
+    db.create(dbname) 
     return dbname
 
 # https://github.com/prometheus/client_python
