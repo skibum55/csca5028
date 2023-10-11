@@ -1,5 +1,5 @@
 slack_sdk
 flair
 prometheus-client
-fastapi[uvicorn]
+fastapi[all]
 uvicorn
