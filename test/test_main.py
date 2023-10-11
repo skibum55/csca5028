@@ -24,3 +24,8 @@ def test_metrics():
     response = client.get("/metrics")
     assert response.status_code == 200
     assert response.text != ""
+
+def test_collect():
+    response = client.get("/collect")
+    assert response.status_code == 201
+    assert response.json() == ['hola mundo']

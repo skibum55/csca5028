@@ -16,4 +16,4 @@ def sentimentAnalyzer(message: str):
     # run sentiment analysis over sentence
     tagger.predict(sentence)
     # print the sentence with all annotations
-    return sentence.labels[0].value
+    return sentence

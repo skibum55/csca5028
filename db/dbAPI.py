@@ -25,7 +25,7 @@ def db_cursor(db_path):
 def create(db_filename):
     # https://www.linkedin.com/pulse/context-manager-python-asad-iqbal
     with db_cursor(db_path) as cur:
-        cur.execute("CREATE TABLE IF NOT EXISTS messageSentiment(ts string, sentiment string);")
+        cur.execute("CREATE TABLE IF NOT EXISTS messageSentiment(ts string, sentiment string, confidence real);")
         cur.execute("CREATE TABLE IF NOT EXISTS message(type string,text string,ts string);")
 
 
@@ -53,11 +53,11 @@ def insert(message):
     with db_cursor(db_path) as cur:
         cur.execute("INSERT INTO Message VALUES(?, ?,?)", message) 
 
-def insertSentiment(ts, sentiment):
+def insertSentiment(ts, sentiment, confidence):
     # db_filename="mydb"
     # conn = sqlite3.connect(db_filename)
     with db_cursor(db_path) as cur:
-        cur.execute("INSERT INTO messageSentiment values (?, ?)",(ts,sentiment))
+        cur.execute("INSERT INTO messageSentiment values (?,?,?)",(ts,sentiment,confidence))
  
 
 def select(message):

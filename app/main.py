@@ -118,7 +118,7 @@ def collect_data():
 @app.get("/analyze/{sentence}",status_code=HTTP_201_CREATED)
 def analyze_data(sentence: str):
     q=sentiment.sentimentAnalyzer(sentence) 
-    return HTMLResponse(q,status_code=201)
+    return HTMLResponse(q.labels[0].value,status_code=201)
 
 @app.get("/db/{dbname}",status_code=HTTP_201_CREATED)
 def read_item(dbname: str):
