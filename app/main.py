@@ -1,7 +1,7 @@
 from typing import Optional
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-from starlette.status import HTTP_201_CREATED
+from starlette.status import HTTP_201_CREATED, HTTP_200_OK
 # https://github.com/render-examples/fastapi/tree/main
 # docs url will get you an OpenAPI/Swagger rendering
 
@@ -92,6 +92,16 @@ async def main():
     # https://fastapi.tiangolo.com/advanced/custom-response/
     return HTMLResponse(content=html_content, status_code=200)
 
+@app.get(
+    "/health",
+    tags=["healthcheck"],
+    summary="Perform a Health Check",
+    response_description="Return HTTP Status Code 200 (OK)",
+    status_code=HTTP_200_OK
+)
+def healthcheck():
+    return HTMLResponse(content="OK", status_code=200)
+
 # @app.post("/echo_user_input")
 # async def echo_input(user_input: Annotated[str, Form()]):
 #     return "You entered: " + user_input
@@ -118,3 +128,5 @@ def read_item(dbname: str):
 # https://github.com/prometheus/client_python
 metrics_app = MetricsManager.myMetrics()
 app.mount("/metrics", metrics_app)
+
+# TODO - add scheduler https://pypi.org/project/fastapi-scheduler/

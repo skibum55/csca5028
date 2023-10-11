@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 channel_name = "csca5028"
 conversation_id = None
 
-# TODO - create db and table on initialization
+# TODO - create db and table on initialization in  main function, not here
 db_filename = os.environ.get("SQLITE_DB")
 dbAPI.create(db_filename) 
 
@@ -81,7 +81,7 @@ try:
         if (messagesubtype != "channel_join"):
             print(messagetype, mytext, mythread,myts)
         msgSentiment = sentiment.sentimentAnalyzer(mytext)
-        # TODO - add above to variable, then write to new db table with id & sentiment
+        # write to sentiment table with id & sentiment
         dbAPI.insertSentiment(myts,msgSentiment)
 
 except SlackApiError as e:
