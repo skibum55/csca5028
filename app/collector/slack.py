@@ -90,7 +90,8 @@ def myfunction():
             label = msgSentiment.labels[0]
             labscore = (label.score)
             labelSentiment=label.value
-
+            # if labelSentiment == "NEGATIVE":
+            #     labscore = labscore * -1
             db.insertSentiment(myts,labelSentiment,labscore)
             return {"hola mundo"}
 

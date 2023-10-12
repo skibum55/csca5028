@@ -25,6 +25,12 @@ docs
 
 http://127.0.0.1:8000/docs#/ or /redoc
 
+docker
+
+```docker run -d -p 8000:8000 --env-file=.dockerenv csca5028:0.0.8```
+
+https://github.com/UKPLab/sentence-transformers/issues/352
+
 
 ## A Level Work
 	

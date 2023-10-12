@@ -5,6 +5,7 @@ from starlette.status import HTTP_201_CREATED, HTTP_200_OK
 # https://github.com/render-examples/fastapi/tree/main
 # docs url will get you an OpenAPI/Swagger rendering
 
+import uvicorn
 import db.dbAPI as db
 import app.collector.slack as slack
 import app.analyzer.sentiment as sentiment
@@ -130,3 +131,6 @@ metrics_app = MetricsManager.myMetrics()
 app.mount("/metrics", metrics_app)
 
 # TODO - add scheduler https://pypi.org/project/fastapi-scheduler/
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)
