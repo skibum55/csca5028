@@ -64,7 +64,7 @@ https://seankeery.grafana.net/a/k6-app/projects/3663881
 
 * Product environment ✅
 
-* Integration tests ❎❎
+* Integration tests ✅✅
 
 * Using mock objects or any test doubles ❎❎
 
@@ -76,4 +76,8 @@ https://seankeery.grafana.net/a/k6-app/projects/3663881
 
 * Continuous delivery ❎❎❎
 
-* Continuous security ❎❎❎❎
+* Continuous security ✅✅✅✅
+
+https://github.com/skibum55/csca5028/security
+![image](./images/continuous_security_overview.png)
+![image2](./images/continuous_security_codeql.png)
