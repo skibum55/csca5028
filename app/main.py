@@ -12,7 +12,7 @@ from components.metrics.prometheus import MetricsManager, REQUEST_COUNT, REQUEST
 #, REQUEST_TIME
 
 
-import db.dbAPI as db
+import db.db_api as db
 import app.collector.slack as slack
 import app.analyzer.sentiment as sentiment
 
@@ -129,7 +129,7 @@ def collect_data():
 @app.get("/analyze/{sentence}",status_code=HTTP_201_CREATED)
 def analyze_data(sentence: str):
     """Function printing python version."""
-    q=sentiment.sentimentAnalyzer(sentence)
+    q=sentiment.sentiment_analyzer(sentence)
     return HTMLResponse(q.labels[0].value,status_code=201)
 
 @app.get("/db/{dbname}",status_code=HTTP_201_CREATED)

@@ -1,3 +1,4 @@
+"""Function printing python version."""
 import sqlite3
 import os
 from contextlib import contextmanager
@@ -7,6 +8,7 @@ db_path = os.environ.get("SQLITE_DB")
 # decorated for reuse - https://stackoverflow.com/questions/67436362/decorator-for-sqlite3/67436763#67436763
 @contextmanager
 def db_cursor(db_path):
+    """Function printing python version."""
     conn = sqlite3.connect(db_path)
     try:
         cur = conn.cursor()
@@ -17,12 +19,13 @@ def db_cursor(db_path):
     else:
         conn.commit()
     finally:
-        conn.close() 
+        conn.close()
 
 # Create a database with the filename given.
 # Create the required tables and fields
 
 def create(db_filename):
+    """Function printing python version."""
     # https://www.linkedin.com/pulse/context-manager-python-asad-iqbal
     with db_cursor(db_path) as cur:
         cur.execute("CREATE TABLE IF NOT EXISTS messageSentiment(ts string, sentiment string, confidence real);")
@@ -42,36 +45,40 @@ messageData = [
 ]
 
 def fill(db_filename):
+    """Function printing python version."""
     with db_cursor(db_path) as cur:
-        # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData) 
+        # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData)
         cur.executemany("INSERT INTO Message VALUES(?,?,?,?)", messageData)
 
 # https://www.sqlitetutorial.net/sqlite-python/insert/
 def insert(message):
+    """Function printing python version."""
     # db_filename="mydb"
     # conn = sqlite3.connect(db_filename)
     with db_cursor(db_path) as cur:
-        cur.execute("INSERT INTO Message VALUES(?, ?,?)", message) 
+        cur.execute("INSERT INTO Message VALUES(?, ?,?)", message)
 
-def insertSentiment(ts, sentiment, confidence):
+def insert_sentiment(ts, sentiment, confidence):
+    """Function printing python version."""
     # db_filename="mydb"
     # conn = sqlite3.connect(db_filename)
     with db_cursor(db_path) as cur:
         cur.execute("INSERT INTO messageSentiment values (?,?,?)",(ts,sentiment,confidence))
- 
 
 def select(message):
-    with db_cursor(db_path) as cur:    
-        cur.execute("SELECT * FROM Message") 
+    """Function printing python version."""
+    with db_cursor(db_path) as cur:
+        cur.execute("SELECT * FROM Message")
 
 # https://stackoverflow.com/questions/50074564/python-sqlite3-selecting-rows-from-table
 def get_latest():
-    with db_cursor(db_path) as cur:    
-        for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM Message"): 
-            return(timestamp)
-        
+    """Function printing python version."""
+    with db_cursor(db_path) as cur:
+        for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM Message"):
+            return timestamp
+           
 def get_average_sentiment():
-    with db_cursor(db_path) as cur: 
-        for (average,) in cur.execute("select avg(confidence) as average from messageSentiment"): 
-            return(str(average))
-
+    """Function printing python version."""
+    with db_cursor(db_path) as cur:
+        for (average,) in cur.execute("select avg(confidence) as average from messageSentiment"):
+            return str(average)

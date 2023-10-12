@@ -5,7 +5,7 @@ import os
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-import db.dbAPI as db
+import db.db_api as db
 import app.analyzer.sentiment as sentiment
 
 # https://api.slack.com/messaging/retrieving
@@ -87,14 +87,14 @@ def myfunction():
             db.insert(mymessage)
             # if (messagesubtype != "channel_join"):
             #     print(messagetype, mytext, mythread,myts)
-            msg_sentiment = sentiment.sentimentAnalyzer(mytext)
+            msg_sentiment = sentiment.sentiment_analyzer(mytext)
             # write to sentiment table with id & sentiment
             label = msg_sentiment.labels[0]
             labscore = label.score
             label_sentiment=label.value
             # if label_sentiment == "NEGATIVE":
             #     labscore = labscore * -1
-            db.insertSentiment(myts,label_sentiment,labscore)
+            db.insert_sentiment(myts,label_sentiment,labscore)
             return {"hola mundo"}
 
     except SlackApiError as e:

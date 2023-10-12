@@ -1,3 +1,4 @@
+"""Function printing python version."""
 from flair.data import Sentence
 from flair.nn import Classifier
 
@@ -5,13 +6,15 @@ from flair.nn import Classifier
 
 # make a sentence
 # sentence = Sentence('I love Berlin and New York.')
-sentence = ''
+
 
 # load the sentiment tagger
 tagger = Classifier.load('sentiment')
 # tagger = Classifier.load('sentiment-fast')
 
-def sentimentAnalyzer(message: str):
+def sentiment_analyzer(message: str):
+    """Function printing python version."""
+    # sentence = ''
     sentence = Sentence(message)
     # run sentiment analysis over sentence
     tagger.predict(sentence)
