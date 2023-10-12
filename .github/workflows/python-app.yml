@@ -16,6 +16,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    environment: nonprod
 
     steps:
     - uses: actions/checkout@v3
@@ -23,6 +24,12 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: "3.10"
+      env: # set environment variables
+        GRAFANA_USER_ID: ${{ secrets.GRAFANA_USER_ID }}
+        GRAFANA_API_KEY: ${{ secrets.GRAFANA_API_KEY }}
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        SQLITE_DB: ${{ env.SQLITE_DB }}
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
