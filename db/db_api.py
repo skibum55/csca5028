@@ -47,13 +47,8 @@ messageData = [
 def fill(db_filename):
     """Function printing python version."""
     with db_cursor(db_path) as cur:
-<<<<<<< HEAD:db/dbAPI.py
         # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData) 
         cur.executemany("INSERT INTO message VALUES(?,?,?,?)", messageData)
-=======
-        # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData)
-        cur.executemany("INSERT INTO Message VALUES(?,?,?,?)", messageData)
->>>>>>> 6f54017b4d18ac09b6f349e0a0875bf2993e4250:db/db_api.py
 
 # https://www.sqlitetutorial.net/sqlite-python/insert/
 def insert(message):
@@ -61,11 +56,7 @@ def insert(message):
     # db_filename="mydb"
     # conn = sqlite3.connect(db_filename)
     with db_cursor(db_path) as cur:
-<<<<<<< HEAD:db/dbAPI.py
         cur.execute("INSERT INTO message VALUES(?, ?,?)", message) 
-=======
-        cur.execute("INSERT INTO Message VALUES(?, ?,?)", message)
->>>>>>> 6f54017b4d18ac09b6f349e0a0875bf2993e4250:db/db_api.py
 
 def insert_sentiment(ts, sentiment, confidence):
     """Function printing python version."""
@@ -75,7 +66,6 @@ def insert_sentiment(ts, sentiment, confidence):
         cur.execute("INSERT INTO messageSentiment values (?,?,?)",(ts,sentiment,confidence))
 
 def select(message):
-<<<<<<< HEAD:db/dbAPI.py
     with db_cursor(db_path) as cur:    
         cur.execute("SELECT * FROM message") 
 
@@ -84,20 +74,7 @@ def get_latest():
     with db_cursor(db_path) as cur:    
         for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM message"): 
             return(timestamp)
-        
-=======
-    """Function printing python version."""
-    with db_cursor(db_path) as cur:
-        cur.execute("SELECT * FROM Message")
-
-# https://stackoverflow.com/questions/50074564/python-sqlite3-selecting-rows-from-table
-def get_latest():
-    """Function printing python version."""
-    with db_cursor(db_path) as cur:
-        for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM Message"):
-            return timestamp
            
->>>>>>> 6f54017b4d18ac09b6f349e0a0875bf2993e4250:db/db_api.py
 def get_average_sentiment():
     """Function printing python version."""
     with db_cursor(db_path) as cur:
