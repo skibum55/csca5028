@@ -1,4 +1,5 @@
-# .github/workflows/ci.yml
+# .github/workflows/continuous-deployment.yml
+name: Continuous Deployment to Render
 
 on:
   pull_request:
