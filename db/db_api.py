@@ -74,7 +74,7 @@ def select(message):
 def get_latest():
     with db_cursor(db_path) as cur:    
         for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM message"): 
-            return(timestamp)
+            return timestamp or 1
            
 def get_average_sentiment():
     """Function printing python version."""

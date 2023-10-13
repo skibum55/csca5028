@@ -123,7 +123,7 @@ def read_item(item_id: int, q: Optional[str] = None):
 @app.get("/collect/",status_code=HTTP_201_CREATED)
 def collect_data():
     """Function printing python version."""
-    q=slack.myfunction()
+    q=slack.slack_collect()
     return q
 
 @app.get("/analyze/{sentence}",status_code=HTTP_201_CREATED)

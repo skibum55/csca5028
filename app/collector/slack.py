@@ -6,7 +6,7 @@ import os
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import db.db_api as db
-import app.analyzer.sentiment as sentiment
+from app.analyzer import sentiment
 
 # https://api.slack.com/messaging/retrieving
 
@@ -19,59 +19,43 @@ logger = logging.getLogger(__name__)
 db_filename = os.environ.get("SQLITE_DB")
 db.create(db_filename)
 
-def myfunction():
+# the collect function
+def slack_collect():
     """Function printing python version."""
     channel_name = "csca5028"
-    conversation_id = None
+    channel_id = None
     try:
         # Call the conversations.list method using the WebClient
         for result in client.conversations_list():
-            if conversation_id is not None:
+            if channel_id is not None:
                 break
             for channel in result["channels"]:
                 # print(channel["name"])
                 if channel["name"] == channel_name:
-                    conversation_id = channel["id"]
+                    channel_id = channel["id"]
                     #Print result
-                    print(f"Found conversation ID: {conversation_id}")
+                    print(f"Found conversation ID: {channel_id}")
                     break
 
     except SlackApiError as e:
         print(f"Error: {e}")
-# TODO - break the channel, conversation and message retrieval into separate functions
-    # Store conversation history
-    conversation_history = []
-    # ID of the channel you want to send the message to
-    channel_id = "C05HXAFL41X"
 
-    try:
-        # Call the conversations.history method using the WebClient
-        # conversations.history returns the first 100 messages by default
-        # These results are paginated, see:
-        # https://api.slack.com/methods/conversations.history$pagination
-        result = client.conversations_history(channel=channel_id)
-        # print(result)
-        conversation_history = result["messages"]
-        # print(conversation_history)
+    # conversation_history = getconversations(channel_id)
+    getmessages(channel_id)
+    return {"hola mundo"}
 
-        # Print results
-        logger.info("{} messages found in {}".format(len(conversation_history), channel_id))
-
-    except SlackApiError as e:
-        logger.error("Error creating conversation: {}".format(e))
-
-    # conversation_id = "C01JASD6802"
-    # oldest_ts = db.get_latest()
-    oldest_ts=1672531261
-    # print(oldest_ts)
-
+def getmessages(channel_id):
+    """function to get messages and insert into database"""
+    oldest_ts = db.get_latest()
+    # oldest_ts=1672531261
+    print(oldest_ts)
     try:
         # Call the conversations.history method using the WebClient
         # The client passes the token you included in initialization
         result = client.conversations_history(
-            channel=conversation_id,
+            channel=channel_id,
             inclusive=True,
-            oldest=oldest_ts,
+            oldest=oldest_ts or 0,
             # latest=oldest_ts,
             # latest="1672531261",
             limit=100
@@ -95,7 +79,6 @@ def myfunction():
             # if label_sentiment == "NEGATIVE":
             #     labscore = labscore * -1
             db.insert_sentiment(myts,label_sentiment,labscore)
-            return {"hola mundo"}
 
     except SlackApiError as e:
         print(f"Error: {e}")
