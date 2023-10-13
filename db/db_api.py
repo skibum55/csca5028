@@ -84,3 +84,15 @@ def get_average_sentiment():
     with db_cursor(db_path) as cur:
         for (average,) in cur.execute("select avg(confidence) as average from messageSentiment"):
             return str(average)
+        
+def get_daily_sentiment():
+    """Function printing python version."""
+    with db_cursor(db_path) as cur:
+        # results = cur.execute("""SELECT json_group_array(json_object('sentiment',sentiment,'count', COUNT(sentiment), 'day', strftime('%Y-%m-%d',datetime(ts,'unixepoch')))) FROM messageSentiment ms GROUP BY day,sentiment;""")
+        # results = cur.execute("""SELECT json_group_array(json_object('sentiment',sentiment,'day', strftime('%Y-%m-%d',datetime(ts,'unixepoch')))) FROM messageSentiment """)
+        # results = cur.execute("""SELECT strftime('%Y-%m-%d',datetime(ts,'unixepoch')) as day, json_group_object(sentiment,confidence) as conf FROM messageSentiment group by day; """)
+        results = cur.execute("""SELECT strftime('%Y-%m-%d',datetime(ts,'unixepoch')) as day, json_array(sentiment,count(confidence)) FROM messageSentiment group by day; """)
+        # results = cur.execute("""SELECT sentiment, json_group_array(strftime('%Y-%m-%d',datetime(ts,'unixepoch'))) ,count(confidence) FROM messageSentiment group by sentiment; """)
+        for row in results:
+            print(row)
+        return results        

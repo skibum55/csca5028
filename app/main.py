@@ -11,7 +11,6 @@ import uvicorn
 from components.metrics.prometheus import MetricsManager, REQUEST_COUNT, REQUEST_LATENCY
 #, REQUEST_TIME
 
-
 import db.db_api as db
 from app.collector import slack
 from app.analyzer import sentiment
@@ -36,6 +35,7 @@ async def main():
     html_content = """<head>
 	<!-- Load plotly.js into the DOM -->
 	<script src='https://cdn.plot.ly/plotly-2.26.0.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
 </head>
 
 <body>
