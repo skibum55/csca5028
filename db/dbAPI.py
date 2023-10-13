@@ -44,14 +44,14 @@ messageData = [
 def fill(db_filename):
     with db_cursor(db_path) as cur:
         # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData) 
-        cur.executemany("INSERT INTO Message VALUES(?,?,?,?)", messageData)
+        cur.executemany("INSERT INTO message VALUES(?,?,?,?)", messageData)
 
 # https://www.sqlitetutorial.net/sqlite-python/insert/
 def insert(message):
     # db_filename="mydb"
     # conn = sqlite3.connect(db_filename)
     with db_cursor(db_path) as cur:
-        cur.execute("INSERT INTO Message VALUES(?, ?,?)", message) 
+        cur.execute("INSERT INTO message VALUES(?, ?,?)", message) 
 
 def insertSentiment(ts, sentiment, confidence):
     # db_filename="mydb"
@@ -62,12 +62,12 @@ def insertSentiment(ts, sentiment, confidence):
 
 def select(message):
     with db_cursor(db_path) as cur:    
-        cur.execute("SELECT * FROM Message") 
+        cur.execute("SELECT * FROM message") 
 
 # https://stackoverflow.com/questions/50074564/python-sqlite3-selecting-rows-from-table
 def get_latest():
     with db_cursor(db_path) as cur:    
-        for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM Message"): 
+        for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM message"): 
             return(timestamp)
         
 def get_average_sentiment():
