@@ -1,10 +1,11 @@
+"""modeule for slack data collection."""
 import logging
 import os
 
 # Import WebClient from Python SDK (github.com/slackapi/python-slack-sdk)
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
-import db.dbAPI as db
+import db.db_api as db
 import app.analyzer.sentiment as sentiment
 
 # https://api.slack.com/messaging/retrieving
@@ -16,9 +17,10 @@ logger = logging.getLogger(__name__)
 
 # TODO - create db and table on initialization in  main function, not here
 db_filename = os.environ.get("SQLITE_DB")
-db.create(db_filename) 
+db.create(db_filename)
 
 def myfunction():
+    """Function printing python version."""
     channel_name = "csca5028"
     conversation_id = None
     try:
@@ -36,7 +38,6 @@ def myfunction():
 
     except SlackApiError as e:
         print(f"Error: {e}")
-        
 # TODO - break the channel, conversation and message retrieval into separate functions
     # Store conversation history
     conversation_history = []
@@ -46,7 +47,8 @@ def myfunction():
     try:
         # Call the conversations.history method using the WebClient
         # conversations.history returns the first 100 messages by default
-        # These results are paginated, see: https://api.slack.com/methods/conversations.history$pagination
+        # These results are paginated, see:
+        # https://api.slack.com/methods/conversations.history$pagination
         result = client.conversations_history(channel=channel_id)
         # print(result)
         conversation_history = result["messages"]
@@ -59,42 +61,41 @@ def myfunction():
         logger.error("Error creating conversation: {}".format(e))
 
     # conversation_id = "C01JASD6802"
-    # oldestTS = db.get_latest()
-    oldestTS=1672531261
-    # print(oldestTS)
+    # oldest_ts = db.get_latest()
+    oldest_ts=1672531261
+    # print(oldest_ts)
 
     try:
         # Call the conversations.history method using the WebClient
-        # The client passes the token you included in initialization    
+        # The client passes the token you included in initialization
         result = client.conversations_history(
             channel=conversation_id,
             inclusive=True,
-            oldest=oldestTS,
-            # latest=oldestTS,
+            oldest=oldest_ts,
+            # latest=oldest_ts,
             # latest="1672531261",
             limit=100
-        )  
+        )
         for message in result["messages"]:
         # Print message text
             messagetype=message["type"]
-            messagesubtype=message.get("subtype") or ""
+            # messagesubtype=message.get("subtype") or ""
             mytext=message["text"]
-            mythread=message.get("thread_ts") or ""
+            # mythread=message.get("thread_ts") or ""
             myts=message["ts"]
             mymessage=(messagetype,mytext,myts)
             db.insert(mymessage)
             # if (messagesubtype != "channel_join"):
             #     print(messagetype, mytext, mythread,myts)
-            msgSentiment = sentiment.sentimentAnalyzer(mytext)
+            msg_sentiment = sentiment.sentiment_analyzer(mytext)
             # write to sentiment table with id & sentiment
-            label = msgSentiment.labels[0]
-            labscore = (label.score)
-            labelSentiment=label.value
-            # if labelSentiment == "NEGATIVE":
+            label = msg_sentiment.labels[0]
+            labscore = label.score
+            label_sentiment=label.value
+            # if label_sentiment == "NEGATIVE":
             #     labscore = labscore * -1
-            db.insertSentiment(myts,labelSentiment,labscore)
+            db.insert_sentiment(myts,label_sentiment,labscore)
             return {"hola mundo"}
 
     except SlackApiError as e:
         print(f"Error: {e}")
-

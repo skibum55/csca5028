@@ -36,7 +36,7 @@ storeData = [
 ]
 
 messageData = [
-    ('message', "For the final project, I see there 3 levels(A, B and C) in the project rubric. Does that mean I can’t get a full score(100%) if it only meets C level work requirements?", '1403051575.000407'),
+    ('message', "For the final project, I see there 3 levels(A, B and C) in the project rubric. Does that mean I cannot get a full score(100%) if it only meets C level work requirements?", '1403051575.000407'),
     ('message',"could anyone review my Week 5 assignment please?", '1403051575.000408'),
     ('message',"I've got some API credentials which I'm not putting in my public repository.  Do y'all think adding those in my Project submission notes is a good way to share them with the peer reviewer?", '1403051575.000409'),
 ]

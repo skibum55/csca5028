@@ -1,3 +1,4 @@
+"""Function providing prometheus scrape endpoint."""
 from prometheus_client import make_asgi_app, Counter, Histogram, Summary
 
 
@@ -17,6 +18,9 @@ REQUEST_TIME = Summary(
     'request_processing_seconds', 
     'Time spent processing request')
 
+"""Function printing python version."""
 class MetricsManager():
-  def myMetrics():
-    return make_asgi_app()
+    """Function printing python version."""
+    def mymetrics(self):
+        """Function printing python version."""
+        return make_asgi_app()

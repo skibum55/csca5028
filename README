@@ -15,6 +15,9 @@ front end
 
 ```flask --app applications/web/web.py run```
 
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+
 data-collector
 
 ```uvicorn app.main:app```
@@ -30,6 +33,19 @@ docker
 ```docker run -d -p 8000:8000 --env-file=.dockerenv csca5028:0.0.8```
 
 https://github.com/UKPLab/sentence-transformers/issues/352
+
+metrics
+
+https://psychic-trout-ppq4r776r5hxg-8000.app.github.dev/metrics/
+
+https://grafana.com/blog/2023/09/21/introducing-agentless-monitoring-for-prometheus-in-grafana-cloud/
+
+https://seankeery.grafana.net/d/metrics-endpoint-overview/metrics-endpoint-overview?orgId=1&refresh=30s
+
+Load Test = Integration
+
+https://seankeery.grafana.net/a/k6-app/projects/3663881
+
 
 
 ## A Level Work
@@ -48,7 +64,7 @@ https://github.com/UKPLab/sentence-transformers/issues/352
 
 * Product environment ✅
 
-* Integration tests ❎❎
+* Integration tests ✅✅
 
 * Using mock objects or any test doubles ❎❎
 
@@ -60,4 +76,8 @@ https://github.com/UKPLab/sentence-transformers/issues/352
 
 * Continuous delivery ❎❎❎
 
-* Continuous security ❎❎❎❎
+* Continuous security ✅✅✅✅
+
+https://github.com/skibum55/csca5028/security
+![image](./images/continuous_security_overview.png)
+![image2](./images/continuous_security_codeql.png)
