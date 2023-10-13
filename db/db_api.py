@@ -45,37 +45,40 @@ messageData = [
     ('message',"I've got some API credentials which I'm not putting in my public repository.  Do y'all think adding those in my Project submission notes is a good way to share them with the peer reviewer?", '1403051575.000409'),
 ]
 
+# TODO - make this into a mock ^^^
 def fill(db_filename):
-    """Function printing python version."""
+    """Function to create mock."""
     with db_cursor(db_path) as cur:
         # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData) 
         cur.executemany("INSERT INTO message VALUES(?,?,?,?)", messageData)
 
 # https://www.sqlitetutorial.net/sqlite-python/insert/
 def insert(message):
-    """Function printing python version."""
+    """Function to insert message."""
     # db_filename="mydb"
     # conn = sqlite3.connect(db_filename)
     with db_cursor(db_path) as cur:
         cur.execute("INSERT INTO message VALUES(?, ?,?)", message) 
 
 def insert_sentiment(ts, sentiment, confidence):
-    """Function printing python version."""
+    """Function to update sentiment table."""
     # db_filename="mydb"
     # conn = sqlite3.connect(db_filename)
     with db_cursor(db_path) as cur:
         cur.execute("INSERT INTO messageSentiment values (?,?,?)",(ts,sentiment,confidence))
 
 def select(message):
+    """function to select all messages"""
     with db_cursor(db_path) as cur:    
-        cur.execute("SELECT * FROM message") 
+        cur.execute("SELECT * FROM message")
 
 # https://stackoverflow.com/questions/50074564/python-sqlite3-selecting-rows-from-table
 def get_latest():
+    """function to get latest message in database"""
     with db_cursor(db_path) as cur:    
         for (timestamp,) in cur.execute("SELECT max(ts) as timestamp FROM message"): 
             return timestamp or 1
-           
+
 def get_average_sentiment():
     """Function printing python version."""
     with db_cursor(db_path) as cur:

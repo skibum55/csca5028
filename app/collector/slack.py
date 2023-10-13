@@ -15,10 +15,6 @@ from app.analyzer import sentiment
 client = WebClient(token=os.environ.get("SLACK_BOT_TOKEN"))
 logger = logging.getLogger(__name__)
 
-# TODO - create db and table on initialization in  main function, not here
-db_filename = os.environ.get("SQLITE_DB")
-db.create(db_filename)
-
 # the collect function
 def slack_collect():
     """Function printing python version."""

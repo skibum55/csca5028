@@ -1,6 +1,6 @@
 """Module providing fastapi routing function."""
-
 from typing import Optional
+import os
 import time
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
@@ -13,12 +13,16 @@ from components.metrics.prometheus import MetricsManager, REQUEST_COUNT, REQUEST
 
 
 import db.db_api as db
-import app.collector.slack as slack
-import app.analyzer.sentiment as sentiment
+from app.collector import slack
+from app.analyzer import sentiment
 
 
 # initialize app
 app = FastAPI()
+db_filename = os.environ.get("SQLITE_DB")
+db.create(db_filename)
+slack.slack_collect()
+
 
 # https://stackoverflow.com/questions/65296604/how-to-return-a-htmlresponse-with-fastapi
 @app.get("/", response_class=HTMLResponse)
