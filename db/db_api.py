@@ -2,8 +2,9 @@
 import sqlite3
 import os
 from contextlib import contextmanager
+
 # createdb & session
-db_path = os.environ.get("SQLITE_DB")
+db_path = os.environ.get("SQLITE_DB") or "test.db"
 
 # decorated for reuse - https://stackoverflow.com/questions/67436362/decorator-for-sqlite3/67436763#67436763
 @contextmanager
