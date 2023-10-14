@@ -2,6 +2,7 @@
 from typing import Optional
 import os
 import time
+import json
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from starlette.status import HTTP_201_CREATED, HTTP_200_OK
@@ -21,6 +22,16 @@ app = FastAPI()
 db_filename = os.environ.get("SQLITE_DB")
 db.create(db_filename)
 slack.slack_collect()
+
+def get_plot_values(tag,key):
+    """function to get trace values"""
+    # ["2023-07-18","2023-08-16","2023-08-17"] format example
+    myplot =[]
+    plotrows = db.get_daily_sentiment(tag)
+    for row in plotrows:
+        d = json.dumps(row[key])
+        myplot.append(d)
+    return str(myplot)
 
 
 # https://stackoverflow.com/questions/65296604/how-to-return-a-htmlresponse-with-fastapi
@@ -82,22 +93,22 @@ var trace1 = {
   type: "scatter",
   mode: "lines",
   name: 'POSITIVE',
-  x: ["2023-07-18","2023-08-16","2023-08-17","2023-08-18","2023-08-20","2023-08-23","2023-08-25","2023-08-26","2023-08-28","2023-08-29","2023-09-04","2023-09-07","2023-09-08","2023-09-12","2023-09-13","2023-09-16","2023-09-17","2023-09-25","2023-09-26","2023-09-30","2023-10-02","2023-10-03","2023-10-04","2023-10-08","2023-10-10","2023-10-11","2023-10-12"],
-  y: [1, 3, 6,4,5,7,4,2,5],
+  x: """ + get_plot_values("POSITIVE","day")+ """,
+  y: """ + get_plot_values("POSITIVE","count")+ """,
   line: {color: '#17BECF'},
   line: {shape: 'spline'},
-  fill: 'tozeroy'
+  fill: 'tonexty'
 }
 
 var trace2 = {
   type: "scatter",
   mode: "lines",
   name: 'NEGATIVE',
-    x: ["2023-07-18","2023-08-16","2023-08-17","2023-08-18","2023-08-20","2023-08-23","2023-08-25","2023-08-26","2023-08-28","2023-08-29","2023-09-04","2023-09-07","2023-09-08","2023-09-12","2023-09-13","2023-09-16","2023-09-17","2023-09-25","2023-09-26","2023-09-30","2023-10-02","2023-10-03","2023-10-04","2023-10-08","2023-10-10","2023-10-11","2023-10-12"],
-    y: [2, 5, 4,3,4,2,1,7],
-  line: {color: '#7F7F7F'},
+    x: """ + get_plot_values("POSITIVE","day")+ """,
+    y: """ + get_plot_values("NEGATIVE","count")+ """,
+  line: {color: '#f04030'},
   line: {shape: 'spline'},
-  fill: 'tonexty',
+  fill: 'tozeroy',
 }
         var data = [trace1, trace2];
 

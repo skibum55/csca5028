@@ -11,6 +11,7 @@ db_path = os.environ.get("SQLITE_DB") or "test.db"
 def db_cursor(db_path):
     """Function printing python version."""
     conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
     try:
         cur = conn.cursor()
         yield cur
@@ -85,14 +86,22 @@ def get_average_sentiment():
         for (average,) in cur.execute("select avg(confidence) as average from messageSentiment"):
             return str(average)
         
-def get_daily_sentiment():
+def get_daily_sentiment(tag):
     """Function printing python version."""
     with db_cursor(db_path) as cur:
         # results = cur.execute("""SELECT json_group_array(json_object('sentiment',sentiment,'count', COUNT(sentiment), 'day', strftime('%Y-%m-%d',datetime(ts,'unixepoch')))) FROM messageSentiment ms GROUP BY day,sentiment;""")
         # results = cur.execute("""SELECT json_group_array(json_object('sentiment',sentiment,'day', strftime('%Y-%m-%d',datetime(ts,'unixepoch')))) FROM messageSentiment """)
         # results = cur.execute("""SELECT strftime('%Y-%m-%d',datetime(ts,'unixepoch')) as day, json_group_object(sentiment,confidence) as conf FROM messageSentiment group by day; """)
-        results = cur.execute("""SELECT strftime('%Y-%m-%d',datetime(ts,'unixepoch')) as day, json_array(sentiment,count(confidence)) FROM messageSentiment group by day; """)
+        # results = cur.execute("""SELECT strftime('%Y-%m-%d',datetime(ts,'unixepoch')) as day, json_array(sentiment,count(confidence)) FROM messageSentiment group by day; """)
         # results = cur.execute("""SELECT sentiment, json_group_array(strftime('%Y-%m-%d',datetime(ts,'unixepoch'))) ,count(confidence) FROM messageSentiment group by sentiment; """)
-        for row in results:
-            print(row)
-        return results        
+        rows = cur.execute("""SELECT strftime('%Y-%m-%d',datetime(ts,'unixepoch')) as day, COUNT(sentiment) as count
+            FROM messageSentiment ms 
+            where sentiment = '""" + tag + """'
+            GROUP BY day;""").fetchall()
+        # print(rows)
+        rowarray_list = []
+        for row in rows:
+            d = dict(zip(row.keys(), row))   # a dict with column names as keys
+            rowarray_list.append(d)
+        # return rowarray_list
+        return rows
