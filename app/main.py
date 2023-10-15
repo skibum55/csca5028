@@ -50,8 +50,11 @@ async def main():
 </head>
 
 <body>
-	<div id='speedometerDiv'><!-- Plotly speedometer will be drawn inside this DIV --></div>
-    <div id='chartDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <h1>Current Sentiment</h1>
+    <p>
+	<div id='speedometerDiv', width=250px, height=250px><!-- Plotly speedometer will be drawn inside this DIV --></div>
+    <h1>Sentiment Over Time</h1>
+    <div id='chartDiv'><!-- Plotly timeseries will be drawn inside this DIV --></div>
     <script>
     // JavaScript Code
         var data = [

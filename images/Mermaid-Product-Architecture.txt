@@ -1,0 +1,57 @@
+C4Context
+      title System Context diagram for Slack Sentiment of MS-CS Students
+      Person(TA, "Teaching Asssistant")
+      Person(Instructor, "Instructor") 
+      Enterprise_Boundary(b0, "Product Boundary") { 
+
+        Boundary(b1, "Front End Boundary") {
+
+          System(Web, "Web App", "View sentiment gauge, and trends.")
+          System(Grafana, "Grafana", "Product Service Level Metrics")        
+        }
+
+          Boundary(b3, "Data Boundary") {
+            SystemDb(PGSql, "Postgres", "Persistent Datastore.")
+            SystemDb_Ext(Prometheus, "Prometheus", "Metric collection.")
+          }
+
+          Boundary(b2, "Middleware Boundary") {
+            System(DataCollector, "Data Collector")
+          SystemQueue(MQ, "RabbitMQ", "Queue")            
+            System(DataAnalyzer, "Sentiment Analyzer", "Individual post analyzer")
+          }
+      }
+
+      Boundary(slack,"Chat Boundary","Program") {
+        Person_Ext(Student, "Student") 
+        System(slack,"slack")
+      }
+      
+      BiRel(TA, Web, "Views")
+      Rel(Student, slack, "Uses")
+      BiRel(DataCollector, slack, "Scrapes")
+      Rel(DataCollector, MQ, "Enqueues", "AMPQ")
+      Rel(MQ, DataAnalyzer, "Dequeues", "AMPQ")
+      Rel(DataAnalyzer, PGSql,"Stores")
+      Rel(MQ,Prometheus,"Metrics")
+      Rel(PGSql,Prometheus,"Metrics")
+      Rel(DataCollector,Prometheus,"Metrics")
+      Rel(DataAnalyzer,Prometheus,"Metrics")
+      Rel(Web,Prometheus,"Metrics")    
+      Rel(Prometheus,Grafana,"Metrics") 
+      Rel(Instructor,Grafana,"SLA")        
+
+
+      UpdateElementStyle(Student, $bgColor="pink", $borderColor="red")
+      UpdateRelStyle(TA, DataCollector, $textColor="blue", $lineColor="blue", $offsetX="5")
+      UpdateRelStyle(DataCollector, Web, $textColor="blue", $lineColor="blue", $offsetY="-10")
+      UpdateRelStyle(DataCollector, SystemC, $textColor="blue", $lineColor="blue", $offsetY="-40", $offsetX="-50")
+      UpdateRelStyle(SystemC, TA, $textColor="red", $lineColor="red", $offsetX="-50", $offsetY="20")
+      UpdateRelStyle(MQ,Prometheus,$lineColor="orange",$textColor="orange")
+      UpdateRelStyle(PGSql,Prometheus,$lineColor="orange",$textColor="orange")
+      UpdateRelStyle(DataCollector,Prometheus,$lineColor="orange",$textColor="orange")
+      UpdateRelStyle(DataAnalyzer,Prometheus,$lineColor="orange",$textColor="orange")
+      UpdateRelStyle(Web,Prometheus,$lineColor="orange",$textColor="orange")  
+      UpdateRelStyle(Instructor,Grafana,"SLA",$lineColor="purple",$textColor="purple")            
+      
+      UpdateLayoutConfig($c4ShapeInRow="4", $c4BoundaryInRow="3")
