@@ -16,17 +16,23 @@ Install the prerequisites, initialize environment variables and create a dedicat
 
 > :warning:  ```.env``` needs to be updated with your information from the ```.env.example```
 
-Run the application with ``` make run ```.  The homepage will be available here ->  [0.0.0.0:8000](http://0.0.0.0:8000). The first run will create a database and load a large public sentiment analysis model from [Hugging Face](https://huggingface.co/).  Any messages not in the database will be collected and analyzed at this point too.
+Run the application with ``` make run ```.  The homepage will be available here ->  [127.0.0.1:8000](http://127.0.0.1:8000). The first run will create a database and load a large public sentiment analysis model from [Hugging Face](https://huggingface.co/).  Any messages not in the database will be collected and analyzed at this point too.
 
 ## TL;DR
 
 Source code is available at [Github](https://github.com/skibum55/csca5028) (minus credentials.)
 
 ### Stories Delivered
+
+###### Development automation ✅
+
+A ```Makefile``` was created for ease of task reuse.
 	
 ##### Web application basic form, reporting ✅
 
-I chose the python [FastTAPI](https://fastapi.tiangolo.com/) framework as the basis for this application.  [Plotly](https://plotly.com/) is used for the data visualization.
+I chose the python [FastTAPI](https://fastapi.tiangolo.com/) framework as the basis for this application.  It provides a great deal of built in features which I would not need to code myself. 
+
+[Plotly](https://plotly.com/) is used for the data visualization. The JavaScript include was an almost codefree starting point.  Plotly has excellent examples, a playground and it supports both javascript and python.
 
 ##### Docs
 
@@ -38,16 +44,17 @@ A [SQLite](https://www.sqlite.org/index.html) database was chosen for it's simpl
 
 ##### Data collection ✅  
 
-The data collector module uses the Slack Web [API](https://api.slack.com/web) to pull messages from specific channels into the DB.  You can run a new collection using the [collect](http://0.0.0.0:8000/collect) endpoint.
+The data collector module uses the Slack Web [API](https://api.slack.com/web) to pull messages from specific channels into the DB.  You can run a new collection using the [collect](http://127.0.0.1:8000/collect) endpoint.
 
 ##### Data analyzer ✅
 
-Data analysis is provided by the [Flair](flairnlp.github.io/) Natural Language Processing library.  It is wrapped by an FastAPI endpoint for inter-process communication. You can run a text analysis using the [analyze](http://0.0.0.0:8000/analuze) endpoint. See the [docs](http://127.0.0.1:8000/docs#/) for usage.
+Data analysis is provided by the [Flair](flairnlp.github.io/) Natural Language Processing library.  It is wrapped by an FastAPI endpoint for inter-process communication. You can run a text analysis using the [analyze](http://127.0.01:8000/analyze) endpoint. See the [docs](http://127.0.0.1:8000/docs#/) for usage.
 
 ##### Unit tests ✅
 
-Unit tests can be found in the [test](./test/) directory.  They can be run with the command ``` make test ``` .
+Unit tests can be found in the [test](./test/) directory.  They can be run with the command ``` make test ``` . FastAPI has pytest support for built-in mocks and stubs.
 
+![Test Success](./images/unit_tests_passing.png)
 
 ##### Rest collaboration internal or API endpoint ✅
 
@@ -59,29 +66,25 @@ Python [Venv](https://docs.python.org/3/library/venv.html) is used for developme
 
 ##### Integration tests ✅✅
 
-Makefile ✅
+###### Continuous integration ✅✅ 
 
-##### Continuous integration ✅✅ 
+[Github Actions](https://github.com/skibum55/csca5028/actions) [manifest's](./.github/workflows/) are used to validate python via linting, code quality and build tasks. 
 
-[Github Actions](https://github.com/skibum55/csca5028/actions)
+![Actions](./images/csca5028_github_actions_runs.png)
 
-https://github.com/UKPLab/sentence-transformers/issues/352
+###### Load testing
+
+Load tests are via [k6](https://seankeery.grafana.net/a/k6-app/projects/3663881).
+
+![Test run](./images/k6_load_test.png)
 
 ##### Production monitoring instrumenting ✅✅ 
 
-[Grafana Cloud](https://seankeery.grafana.net)
+[Grafana Cloud](https://seankeery.grafana.net) is used for collecting and visualizing performance.  A Prometheus metrics endpoint is avaailable [here](https://127.0.0.1/metrics/).
 
+![Dashboard](./images/grafana_metrics.png)
 https://www.google.com/search?channel=fenc&client=firefox-b-1-lm&q=prometheus+requests+per+second
 
-https://psychic-trout-ppq4r776r5hxg-8000.app.github.dev/metrics/
-
-https://grafana.com/blog/2023/09/21/introducing-agentless-monitoring-for-prometheus-in-grafana-cloud/
-
-https://seankeery.grafana.net/d/metrics-endpoint-overview/metrics-endpoint-overview?orgId=1&refresh=30s
-
-Load Test = Integration
-
-https://seankeery.grafana.net/a/k6-app/projects/3663881
 
 ##### Continuous delivery ✅✅✅ 
 
