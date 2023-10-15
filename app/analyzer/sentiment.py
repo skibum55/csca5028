@@ -1,4 +1,4 @@
-"""Function printing python version."""
+"""module for sentiment analsis."""
 from flair.data import Sentence
 from flair.nn import Classifier
 
@@ -13,7 +13,7 @@ tagger = Classifier.load('sentiment')
 # tagger = Classifier.load('sentiment-fast')
 
 def sentiment_analyzer(message: str):
-    """Function printing python version."""
+    """Function to analyze string."""
     # sentence = ''
     sentence = Sentence(message)
     # run sentiment analysis over sentence

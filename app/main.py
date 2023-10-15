@@ -37,7 +37,7 @@ def get_plot_values(tag,key):
 # https://stackoverflow.com/questions/65296604/how-to-return-a-htmlresponse-with-fastapi
 @app.get("/", response_class=HTMLResponse)
 async def main():
-    """Function printing python version."""
+    """Function to load homepage."""
     start_time = time.time()
     REQUEST_COUNT.labels('GET', '/', 200).inc()
     REQUEST_LATENCY.labels('GET', '/').observe(time.time() - start_time)
@@ -127,33 +127,33 @@ var trace2 = {
     status_code=HTTP_200_OK
 )
 def healthcheck():
-    """Function printing python version."""
+    """Function returning liveness info."""
     return HTMLResponse(content="OK", status_code=200)
 
 # @app.post("/echo_user_input")
 # async def echo_input(user_input: Annotated[str, Form()]):
 #     return "You entered: " + user_input
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    """Function printing python version."""
-    return {"item_id": item_id, "q": q}
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: Optional[str] = None):
+#     """Function printing python version."""
+#     return {"item_id": item_id, "q": q}
 
 @app.get("/collect/",status_code=HTTP_201_CREATED)
 def collect_data():
-    """Function printing python version."""
+    """Function to collect data."""
     q=slack.slack_collect()
     return q
 
 @app.get("/analyze/{sentence}",status_code=HTTP_201_CREATED)
 def analyze_data(sentence: str):
-    """Function printing python version."""
+    """Function to analyze sentence."""
     q=sentiment.sentiment_analyzer(sentence)
     return HTMLResponse(q.labels[0].value,status_code=201)
 
 @app.get("/db/{dbname}",status_code=HTTP_201_CREATED)
 def read_db(dbname: str):
-    """Function printing python version."""
+    """Function to create db."""
     db.create(dbname)
     return dbname
 

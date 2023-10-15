@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 # the collect function
 def slack_collect():
-    """Function printing python version."""
+    """Function to scrape slack data."""
     channel_name = "csca5028"
     channel_id = None
     try:

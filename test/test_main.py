@@ -1,4 +1,4 @@
-"""Function printing python version."""
+"""Unit test module."""
 from fastapi.testclient import TestClient
 
 from app.main import app

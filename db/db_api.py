@@ -1,4 +1,4 @@
-"""Function printing python version."""
+"""module for database functionality."""
 import sqlite3
 import os
 from contextlib import contextmanager
@@ -9,7 +9,7 @@ db_path = os.environ.get("SQLITE_DB") or "test.db"
 # decorated for reuse - https://stackoverflow.com/questions/67436362/decorator-for-sqlite3/67436763#67436763
 @contextmanager
 def db_cursor(db_path):
-    """Function printing python version."""
+    """Reusable db cursor."""
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     try:
@@ -27,7 +27,7 @@ def db_cursor(db_path):
 # Create the required tables and fields
 
 def create(db_filename):
-    """Function printing python version."""
+    """function for db creation."""
     # https://www.linkedin.com/pulse/context-manager-python-asad-iqbal
     with db_cursor(db_path) as cur:
         cur.execute("CREATE TABLE IF NOT EXISTS messageSentiment(ts string, sentiment string, confidence real);")
@@ -48,7 +48,7 @@ messageData = [
 
 # TODO - make this into a mock ^^^
 def fill(db_filename):
-    """Function to create mock."""
+    """Function to add data to message table."""
     with db_cursor(db_path) as cur:
         # c = cur.executemany("INSERT INTO Store VALUES(?, ?, ?,?,?,?,?,?)", storeData) 
         cur.executemany("INSERT INTO message VALUES(?,?,?,?)", messageData)

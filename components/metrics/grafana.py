@@ -1,4 +1,4 @@
-"""Function printing python version."""
+"""module to send metrics directly to grafana endpoint."""
 import os
 import requests
 
