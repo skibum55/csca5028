@@ -1,10 +1,22 @@
 # Student Sentiment Analysis
 
-``` make init ```
+## Executive Summary
 
-pip, environment, etc
+As education moves away from mandatory classroom attendance, educators need to have a broader toolbox for fostering engagement.  Forums and chats provide an opportunity to gage the learners feelings about the course.  My product gives instructors, and their assistants, real-time insight into student sentiment.  This fast feedback encourages immediate adaptation in the case of misunderstandings while providing opportunities for future improvement.
 
-``` make db ```
+## Initial Architecture Thoughts
+
+![Diagram](./images/Mermaid-Product-Architecture.png)
+
+## Quick Start
+
+Install the prerequisites, initialize variables and create dedicated environment with ``` make install ```.  Be patient as there are a number of large data science libraries which need to load.
+
+Run the application with ``` make run ```.  The homepage will be available here ->  [0.0.0.0:8000](http://0.0.0.0:8000). The first run will create a database and load a large public sentiment analysis model from [Hugging Face](https://huggingface.co/).
+
+## TL;DR
+
+Source code available at [Github](https://github.com/skibum55/csca5028) (minus credentials.)
 
 db schema
 
@@ -34,7 +46,11 @@ docker
 
 https://github.com/UKPLab/sentence-transformers/issues/352
 
+https://github.com/skibum55/csca5028/pkgs/container/csca5028
+
+
 metrics
+
 
 https://psychic-trout-ppq4r776r5hxg-8000.app.github.dev/metrics/
 
@@ -46,9 +62,7 @@ Load Test = Integration
 
 https://seankeery.grafana.net/a/k6-app/projects/3663881
 
-
-
-## A Level Work
+### A Level Work
 	
 * Web application basic form, reporting ❎
 
@@ -62,22 +76,32 @@ https://seankeery.grafana.net/a/k6-app/projects/3663881
 
 * Rest collaboration internal or API endpoint ✅
 
-* Product environment ✅
+* Product environment ✅ Venv, Render,[Github Codespaces](https://psychic-trout-ppq4r776r5hxg-8000.app.github.dev/)
 
 * Integration tests ✅✅
 
 * Using mock objects or any test doubles ❎❎
 
-* Continuous integration ❎❎
+* Continuous integration ✅✅ [Github Actions](https://github.com/skibum55/csca5028/actions)
 
-* Production monitoring instrumenting ❎❎
+* Production monitoring instrumenting ✅✅ [Grafana Cloud](https://seankeery.grafana.net)
+
+https://www.google.com/search?channel=fenc&client=firefox-b-1-lm&q=prometheus+requests+per+second
 
 * Event collaboration messaging ❎❎❎
 
-* Continuous delivery ❎❎❎
+* Continuous delivery ✅✅✅
 
 * Continuous security ✅✅✅✅
 
 https://github.com/skibum55/csca5028/security
 ![image](./images/continuous_security_overview.png)
 ![image2](./images/continuous_security_codeql.png)
+
+### TODO
+
+Mocks
+Makefile ✅
+Message Queue
+Report
+Scheduler
