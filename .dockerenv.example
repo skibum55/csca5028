@@ -1,0 +1,4 @@
+GRAFANA_USER_ID=12345
+GRAFANA_API_KEY=<yourKey>
+SLACK_BOT_TOKEN=<yourToken>
+SQLITE_DB="slackcollector.db"
